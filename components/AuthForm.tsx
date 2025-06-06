@@ -7,7 +7,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { toast } from 'sonner'
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from 'firebase/auth'
+import { auth } from '@/firebase/client'
 
+import { signIn, signUp } from '@/lib/actions/auth.action'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import FormField from './FormField'
@@ -34,19 +40,67 @@ const AuthForm = ({ type }: { type: FormType }) => {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       if (type === 'sign-up') {
+        const { name, email, password } = values
+
+        const userCrededentials = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password,
+        )
+
+        const response = await signUp({
+          uid: userCrededentials.user.uid,
+          name: name!,
+          email,
+          password,
+        })
+
+        if (!response?.success) {
+          toast.error(response?.message)
+          return
+        }
+
         toast.success('Account created successfully. Please sign in.')
         router.push('/sign-in')
       } else {
+        const { email, password } = values
+
+        const userCredentials = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password,
+        )
+
+        const idToken = await userCredentials.user.getIdToken()
+
+        if (!idToken) {
+          toast.error('Sign in failed')
+          return
+        }
+
+        await signIn({
+          email,
+          idToken,
+        })
+
         toast.success('Signed in successfully')
         router.push('/')
       }
-    } catch (error) {
-      // TO DO: Update to user-friendly error message
-      console.error(error)
-      toast.error(`There was an error: ${error}`)
+    } catch (error: any) {
+      console.error('Error signing up a user ', error)
+
+      if (error.code === 'auth/email-already-in-use') {
+        return toast.error('This email is already in use.')
+      }
+
+      if (error.code === 'auth/invalid-credential') {
+        return toast.error('Invalid email or password')
+      }
+
+      toast.error('Something went wrong')
     }
   }
 
