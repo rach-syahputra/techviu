@@ -15,12 +15,6 @@ const eslintConfig = [
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
     },
-    eslint: {
-      ignoreDuringBuilds: true,
-    },
-    typescript: {
-      ignoreBuildErrors: true,
-    },
   },
 ]
 
