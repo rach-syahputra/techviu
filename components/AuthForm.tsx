@@ -111,7 +111,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
       <div className="card flex flex-col gap-6 px-10 py-14">
         <div className="flex flex-row justify-center gap-2">
           <Image src="/logo.svg" alt="logo" height={32} width={38} />
-          <h2 className="text-primary-100">Intervium</h2>
+          <h2 className="text-primary-100">Techviu</h2>
         </div>
 
         <h3 className="text-center">Practice job interview with AI</h3>
@@ -144,7 +144,11 @@ const AuthForm = ({ type }: { type: FormType }) => {
               type="password"
             />
 
-            <Button type="submit" className="btn">
+            <Button
+              type="submit"
+              disabled={form.formState.isSubmitting}
+              className="btn"
+            >
               {isSignIn ? 'Sign in' : 'Create an Account'}
             </Button>
           </form>

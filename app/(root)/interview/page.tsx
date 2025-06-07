@@ -1,15 +1,12 @@
-import { getCurrentUser } from '@/lib/actions/auth.action'
-import Agent from '@/components/Agent'
+import InterviewForm from '@/components/InterviewForm'
 
 const InterviewPage = async () => {
-  const user = await getCurrentUser()
-
   return (
-    <>
+    <main className="mx-auto flex w-full flex-col gap-8 md:max-w-[556px]">
       <h3>Interview Generation</h3>
 
-      <Agent userName={user?.name || ''} userId={user?.id} type="generate" />
-    </>
+      <InterviewForm />
+    </main>
   )
 }
 

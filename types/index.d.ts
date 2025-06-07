@@ -86,7 +86,8 @@ interface SignUpParams {
 type FormType = 'sign-in' | 'sign-up'
 
 interface InterviewFormProps {
-  interviewId: string
+  interviewId?: string
+  userId: string
   role: string
   level: string
   type: string
