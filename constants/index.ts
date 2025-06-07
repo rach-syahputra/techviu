@@ -232,6 +232,7 @@ export const generator: CreateWorkflowDTO = {
           },
         ],
       },
+      // @ts-expect-error
       messagePlan: {
         firstMessage: '',
       },
@@ -255,6 +256,7 @@ export const generator: CreateWorkflowDTO = {
     },
     {
       name: 'apiRequest_1748118482312',
+      // @ts-expect-error
       type: 'apiRequest',
       metadata: {
         position: {
@@ -329,6 +331,7 @@ export const generator: CreateWorkflowDTO = {
     },
     {
       name: 'hangup_1748120419658',
+      // @ts-expect-error
       type: 'hangup',
       metadata: {
         position: {
@@ -374,6 +377,7 @@ export const generator: CreateWorkflowDTO = {
   ],
   model: {
     model: 'gpt-4o',
+    // @ts-expect-error
     messages: [
       {
         role: 'system',
