@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -10,6 +11,7 @@ import { toast } from 'sonner'
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from 'firebase/auth'
 import { auth } from '@/firebase/client'
 
@@ -19,11 +21,20 @@ import { Form } from '@/components/ui/form'
 import FormField from './FormField'
 
 const authFormSchema = (type: FormType) => {
-  // TO DO: Add error message for each input
   return z.object({
-    name: type === 'sign-up' ? z.string().min(3) : z.string().optional(),
-    email: z.string().email(),
-    password: z.string().min(3),
+    name:
+      type === 'sign-up'
+        ? z.string().min(3, { message: 'Name must be at least 3 characters.' })
+        : z.string().optional(),
+    email: z
+      .string({ message: 'Email is required.' })
+      .email({ message: 'Email format is invalid.' }),
+    password:
+      type === 'sign-up'
+        ? z
+            .string()
+            .min(8, { message: 'Password must be at least 8 characters' })
+        : z.string().min(1, { message: 'Password is required' }),
   })
 }
 
@@ -40,8 +51,9 @@ const AuthForm = ({ type }: { type: FormType }) => {
     },
   })
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
+      // SIGN UP
       if (type === 'sign-up') {
         const { name, email, password } = values
 
@@ -66,6 +78,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
         toast.success('Account created successfully. Please sign in.')
         router.push('/sign-in')
       } else {
+        // SIGN IN
         const { email, password } = values
 
         const userCredentials = await signInWithEmailAndPassword(
@@ -74,7 +87,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
           password,
         )
 
-        const idToken = await userCredentials.user.getIdToken()
+        const idToken = await userCredentials.user.getIdToken(true)
 
         if (!idToken) {
           toast.error('Sign in failed')
@@ -100,11 +113,15 @@ const AuthForm = ({ type }: { type: FormType }) => {
         return toast.error('Invalid email or password')
       }
 
-      toast.error('Something went wrong')
+      toast.error('Try to refresh your page and sign in again.')
     }
   }
 
   const isSignIn = type === 'sign-in'
+
+  useEffect(() => {
+    signOut(auth)
+  }, [])
 
   return (
     <div className="card-border lg:min-w-[566px]">

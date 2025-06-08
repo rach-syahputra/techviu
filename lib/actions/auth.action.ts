@@ -58,6 +58,11 @@ export const signIn = async (params: SignInParams) => {
     }
 
     await setSessionCookie(idToken)
+
+    return {
+      success: true,
+      message: 'Logged in successfully.',
+    }
   } catch (error) {
     console.error(error)
 
@@ -82,6 +87,33 @@ export const setSessionCookie = async (idToken: string) => {
     path: '/',
     sameSite: 'lax',
   })
+}
+
+export const signOut = async () => {
+  const cookieStore = await cookies()
+
+  const sessionCookie = cookieStore.get('session')?.value
+  if (sessionCookie) {
+    try {
+      const decodedClaims = await auth.verifySessionCookie(sessionCookie)
+      await auth.revokeRefreshTokens(decodedClaims.sub)
+    } catch (error) {
+      console.error('Failed to revoke session:', error)
+    }
+  }
+
+  cookieStore.set('session', '', {
+    maxAge: 0,
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    path: '/',
+    sameSite: 'lax',
+  })
+
+  return {
+    success: true,
+    message: 'Logged out successfully.',
+  }
 }
 
 export const getCurrentUser = async (): Promise<User | null> => {
