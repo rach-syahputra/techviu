@@ -1,7 +1,5 @@
 import { redirect } from 'next/navigation'
-import Image from 'next/image'
 
-import { getRandomInterviewCover } from '@/lib/utils'
 import { getInterviewById } from '@/lib/actions/interview.action'
 import { getCurrentUser } from '@/lib/actions/auth.action'
 import DisplayTechIcons from '@/components/DisplayTechIcons'
@@ -18,16 +16,7 @@ const InterviewSessionPage = async ({ params }: RouteParams) => {
     <>
       <div className="flex flex-row justify-between gap-4">
         <div className="flex flex-row items-center gap-4 max-sm:flex-col">
-          <div className="flex flex-row items-center gap-4">
-            <Image
-              src={getRandomInterviewCover()}
-              alt="cover image"
-              width={40}
-              height={40}
-              className="size-[40px] rounded-full object-cover"
-            />
-            <h3 className="capitalize">{interview.role} Interview</h3>
-          </div>
+          <h3 className="capitalize">{interview.role} Interview</h3>
 
           <DisplayTechIcons techStack={interview.techstack} />
         </div>

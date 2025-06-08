@@ -3,11 +3,14 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import { User } from 'lucide-react'
+import { toast } from 'sonner'
 
 import { interviewer } from '@/constants'
 import { cn } from '@/lib/utils'
 import { vapi } from '@/lib/vapi'
 import { createFeedback } from '@/lib/actions/interview.action'
+import LoadingOverlay from './LoadingOverlay'
 
 enum CallStatus {
   INACTIVE = 'INACTIVE',
@@ -33,6 +36,7 @@ const Agent = ({
   const [isSpeaking, setIsSpeaking] = useState(false)
   const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE)
   const [messages, setMessages] = useState<SavedMessage[]>([])
+  const [isGeneratingFeedback, setIsGeneratingFeedback] = useState(false)
 
   const handleCall = async () => {
     setCallStatus(CallStatus.CONNECTING)
@@ -66,6 +70,8 @@ const Agent = ({
   }
 
   const handleGenerateFeedback = async (messages: SavedMessage[]) => {
+    setIsGeneratingFeedback(true)
+
     const { success, feedbackId } = await createFeedback({
       interviewId: interviewId!,
       userId: userId!,
@@ -75,9 +81,11 @@ const Agent = ({
     if (success && feedbackId) {
       router.push(`/interview/${interviewId}/feedback`)
     } else {
-      console.error('Error saving feedback')
+      toast.error('Something went wrong when generating feedback')
       router.push('/')
     }
+
+    setIsGeneratingFeedback(false)
   }
 
   useEffect(() => {
@@ -147,13 +155,9 @@ const Agent = ({
 
         <div className="card-border">
           <div className="card-content">
-            <Image
-              src="/user-avatar.png"
-              alt="user avatar"
-              width={540}
-              height={540}
-              className="size-[120px] rounded-full object-cover"
-            />
+            <div className="user-image">
+              <User size={80} className="text-light-100" />
+            </div>
             <h3>{userName}</h3>
           </div>
         </div>
@@ -191,6 +195,8 @@ const Agent = ({
           </button>
         )}
       </div>
+
+      <LoadingOverlay open={isGeneratingFeedback} />
     </>
   )
 }

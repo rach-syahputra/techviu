@@ -94,7 +94,7 @@ const FeedbackPage = async ({ params }: RouteParams) => {
         <Button className="btn-secondary flex-1">
           <Link href="/" className="flex w-full justify-center">
             <p className="text-primary-200 text-center text-sm font-semibold">
-              Back to home
+              Back to Home
             </p>
           </Link>
         </Button>

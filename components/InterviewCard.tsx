@@ -2,7 +2,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import dayjs from 'dayjs'
 
-import { getRandomInterviewCover } from '@/lib/utils'
 import { getFeedbackByInterviewId } from '@/lib/actions/interview.action'
 import { Button } from './ui/button'
 import DisplayTechIcons from './DisplayTechIcons'
@@ -33,11 +32,11 @@ const InterviewCard = async ({
           </div>
 
           <Image
-            src={getRandomInterviewCover()}
+            src="/logo.svg"
             alt="cover image"
             width={90}
             height={90}
-            className="object-fit size-[90px] rounded-full"
+            className="object-fit size-[90px]"
           />
 
           <h3 className="mt-5 capitalize">{role} Interview</h3>
@@ -73,7 +72,7 @@ const InterviewCard = async ({
             <Link
               href={feedback ? `/interview/${id}/feedback` : `/interview/${id}`}
             >
-              {feedback ? 'Check Feedback' : 'View Interview'}
+              {feedback ? 'View Feedback' : 'View Interview'}
             </Link>
           </Button>
         </div>

@@ -296,6 +296,10 @@
       @apply text-sm font-semibold capitalize;
     }
   }
+
+  .user-image {
+    @apply border-light-100 flex size-[120px] items-center justify-center rounded-full border;
+  }
 }
 
 @utility dark-gradient {
