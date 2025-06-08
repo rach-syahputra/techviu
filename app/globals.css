@@ -139,10 +139,10 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
   }
   p {
-    @apply text-light-100;
+    @apply dark:text-light-100 text-shadow-dark-200;
   }
   h2 {
     @apply text-3xl font-semibold;
@@ -154,7 +154,7 @@
     @apply list-inside list-disc;
   }
   li {
-    @apply text-light-100;
+    @apply dark:text-light-100 text-dark-100;
   }
 }
 
@@ -178,7 +178,7 @@
     @apply !bg-primary-200 !text-dark-100 hover:!bg-primary-200/80 min-h-10 w-fit cursor-pointer !rounded-full px-5 !font-bold;
   }
   .btn-secondary {
-    @apply !bg-dark-200 !text-primary-200 hover:!bg-dark-200/80 min-h-10 w-fit cursor-pointer !rounded-full px-5 !font-bold;
+    @apply dark:!bg-dark-200 !text-dark-200 dark:!text-primary-200 dark:hover:!bg-dark-200/80 !bg-light-400 hover:!bg-light-400/80 min-h-10 w-fit cursor-pointer !rounded-full px-5 !font-bold;
   }
 
   .btn-upload {
@@ -186,26 +186,30 @@
   }
 
   .card-border {
-    @apply border-gradient w-fit rounded-2xl p-0.5;
+    @apply gray-gradient dark:border-gradient w-fit rounded-2xl p-0.5;
   }
 
   .card {
-    @apply dark-gradient min-h-full rounded-2xl;
+    @apply dark:dark-gradient gray-gradient min-h-full rounded-2xl;
   }
 
   .form {
     @apply w-full;
 
     .label {
-      @apply !text-light-100 !font-semibold;
+      @apply dark:!text-light-100 !text-dark-100 !font-semibold;
     }
 
     .description {
-      @apply !text-light-100 text-sm leading-normal;
+      @apply dark:!text-light-100 !text-dark-100 text-sm leading-normal;
     }
 
     .input {
-      @apply !bg-dark-200 placeholder:!text-light-100 !min-h-12 !rounded-full !px-5;
+      @apply dark:!bg-dark-200 dark:placeholder:!text-light-100 !min-h-12 !rounded-full !bg-gray-200 !px-5 placeholder:!text-gray-500;
+    }
+
+    .interview-input {
+      @apply dark:!bg-dark-200 dark:placeholder:!text-light-100 !min-h-12 !rounded-full !bg-red-100 !px-5 placeholder:!text-gray-400;
     }
 
     .btn {
@@ -217,11 +221,11 @@
     @apply flex w-full flex-col items-center justify-between gap-10 sm:flex-row;
 
     h3 {
-      @apply text-primary-100 mt-5 text-center;
+      @apply dark:text-primary-100 text-dark-100 mt-5 text-center;
     }
 
     .card-interviewer {
-      @apply flex-center blue-gradient-dark border-primary-200/50 h-[400px] w-full flex-1 flex-col gap-2 rounded-lg border-2 p-7 sm:basis-1/2;
+      @apply flex-center gray-gradient-dark dark:blue-gradient-dark dark:border-primary-200/50 h-[400px] w-full flex-1 flex-col gap-2 rounded-lg border-2 border-gray-200 p-7 sm:basis-1/2;
     }
 
     .avatar {
@@ -233,22 +237,22 @@
     }
 
     .card-border {
-      @apply border-gradient h-[400px] w-full flex-1 rounded-2xl p-0.5 max-md:hidden sm:basis-1/2;
+      @apply dark:border-gradient h-[400px] w-full flex-1 rounded-2xl border-gray-200 p-0.5 max-md:hidden sm:basis-1/2;
     }
 
     .card-content {
-      @apply dark-gradient flex min-h-full flex-col items-center justify-center gap-2 rounded-2xl p-7;
+      @apply dark:dark-gradient gray-gradient flex min-h-full flex-col items-center justify-center gap-2 rounded-2xl p-7;
     }
   }
 
   .transcript-border {
-    @apply border-gradient w-full rounded-2xl p-0.5;
+    @apply dark:border-gradient w-full rounded-2xl border-gray-200 p-0.5;
 
     .transcript {
-      @apply dark-gradient flex min-h-12 items-center justify-center rounded-2xl px-5 py-3;
+      @apply dark:dark-gradient gray-gradient flex min-h-12 items-center justify-center rounded-2xl px-5 py-3;
 
       p {
-        @apply text-center text-lg text-white;
+        @apply text-dark-100 text-center text-lg dark:text-white;
       }
     }
   }
@@ -270,7 +274,7 @@
   }
 
   .card-cta {
-    @apply blue-gradient-dark flex flex-row items-center justify-between rounded-3xl px-16 py-6 max-sm:px-4;
+    @apply dark:blue-gradient-dark gray-gradient flex flex-row items-center justify-between rounded-3xl px-16 py-6 max-sm:px-4;
   }
 
   .interviews-section {
@@ -290,7 +294,7 @@
   }
 
   .card-interview {
-    @apply dark-gradient relative flex min-h-full flex-col justify-between gap-10 overflow-hidden rounded-2xl p-6;
+    @apply dark:dark-gradient gray-gradient relative flex min-h-full flex-col justify-between gap-10 overflow-hidden rounded-2xl p-6;
 
     .badge-text {
       @apply text-sm font-semibold capitalize;
@@ -298,7 +302,7 @@
   }
 
   .user-image {
-    @apply border-light-100 flex size-[120px] items-center justify-center rounded-full border;
+    @apply dark:border-light-100 border-dark-200 flex size-[120px] items-center justify-center rounded-full border;
   }
 }
 
@@ -320,6 +324,14 @@
 
 @utility blue-gradient {
   @apply bg-gradient-to-l from-[#FFFFFF] to-[#CAC5FE];
+}
+
+@utility gray-gradient {
+  @apply bg-gradient-to-r from-gray-50 to-gray-100;
+}
+
+@utility gray-gradient-dark {
+  @apply bg-gradient-to-r from-gray-100 to-gray-200;
 }
 
 @utility flex-center {

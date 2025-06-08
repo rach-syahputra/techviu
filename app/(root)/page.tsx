@@ -15,22 +15,28 @@ const HomePage = async () => {
   return (
     <>
       <section className="card-cta">
-        <div className="flex max-w-lg flex-col gap-6">
-          <h2>Get Interview-Ready with AI-Powered Practice & Feedback</h2>
-          <p className="text-lg">
-            Practice on real interview questions & get instant feedback
-          </p>
+        <div className="flex w-full flex-col justify-between gap-8 max-lg:items-center lg:flex-row lg:gap-6">
+          <div className="flex max-w-lg flex-col gap-6">
+            <h2>Smarter Tech Interviews with AI</h2>
+            <p className="text-lg">
+              Practice real interview questions tailored to your role,
+              experience level, and tech stack. Get immediate, AI-powered
+              feedback to improve faster and build interview confidence.
+            </p>
 
-          <CTA
-            hasReachedInterviewSessionLimit={(user?.createdInterview || 0) >= 1}
-          />
+            <CTA
+              hasReachedInterviewSessionLimit={
+                (user?.createdInterview || 0) >= 1
+              }
+            />
+          </div>
 
           <Image
-            src="/robot.png"
-            alt="robo-dude"
-            width={400}
-            height={400}
-            className="max-sm:hidden"
+            src="/hero.png"
+            alt="tech-interview"
+            width={600}
+            height={620.45}
+            className="aspect-auto w-[300px] object-cover"
           />
         </div>
       </section>

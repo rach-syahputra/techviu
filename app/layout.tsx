@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Mona_Sans } from 'next/font/google'
 import { Toaster } from 'sonner'
 import './globals.css'
+import { ThemeProvider } from '@/components/ThemeProvider'
 
 const monaSans = Mona_Sans({
   variable: '--font-mona-sans',
@@ -20,11 +21,17 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body className={`${monaSans.variable} ${monaSans.variable} antialiased`}>
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          disableTransitionOnChange
+        >
+          {children}
 
-        <Toaster />
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   )

@@ -3,8 +3,10 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { useTheme } from 'next-themes'
 import dayjs from 'dayjs'
 import { toast } from 'sonner'
+import { Calendar, Star } from 'lucide-react'
 
 import { getFeedbackByInterviewId } from '@/lib/actions/interview.action'
 import { Button } from './ui/button'
@@ -21,6 +23,7 @@ const InterviewCard = ({
   hasReachedInterviewSessionLimit,
 }: InterviewCardProps) => {
   const router = useRouter()
+  const { theme } = useTheme()
 
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [feedback, setFeedback] = useState<Feedback | null>(null)
@@ -60,12 +63,12 @@ const InterviewCard = ({
     <div className="card-border min-h-96 w-[360px] max-sm:w-full">
       <div className="card-interview">
         <div>
-          <div className="bg-light-600 absolute top-0 right-0 w-fit rounded-bl-lg px-4 py-2">
+          <div className="bg-light-100 absolute top-0 right-0 w-fit rounded-bl-lg px-4 py-2">
             <p className="badge-text">{normalizedType}</p>
           </div>
 
           <Image
-            src="/logo.png"
+            src={theme === 'light' ? '/logo-light.png' : '/logo.png'}
             alt="cover image"
             width={90}
             height={86}
@@ -75,19 +78,18 @@ const InterviewCard = ({
           <h3 className="mt-5 capitalize">{role} Interview</h3>
 
           <div className="mt-3 flex flex-row gap-5">
-            <div className="flex flex-row gap-2">
-              <Image
-                src="/calendar.svg"
-                alt="calendar"
-                width={22}
-                height={22}
+            <div className="flex flex-row items-center gap-2">
+              <Calendar
+                size={22}
+                className="text-dark-100 dark:text-light-100"
               />
 
               <p>{date}</p>
             </div>
 
             <div className="flex flex-row items-center gap-2">
-              <Image src="/star.svg" alt="star" width={22} height={22} />
+              <Star size={22} className="text-dark-100 dark:text-light-100" />
+
               <p>{feedback?.totalScore || '---'}/100</p>
             </div>
           </div>

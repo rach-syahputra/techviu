@@ -156,7 +156,7 @@ const Agent = ({
         <div className="card-border">
           <div className="card-content">
             <div className="user-image">
-              <User size={80} className="text-light-100" />
+              <User size={80} className="dark:text-light-100 text-dark-200" />
             </div>
             <h3>{userName}</h3>
           </div>
@@ -183,7 +183,7 @@ const Agent = ({
         {callStatus !== 'ACTIVE' ? (
           <button onClick={handleCall} className="btn-call relative">
             <span
-              className={cn('absokute animate-ping rounded-full opacity-75', {
+              className={cn('absolute animate-ping rounded-full opacity-75', {
                 hidden: callStatus !== 'CONNECTING',
               })}
             />

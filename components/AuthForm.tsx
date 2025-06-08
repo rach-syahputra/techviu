@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -19,6 +18,7 @@ import { signIn, signUp } from '@/lib/actions/auth.action'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import FormField from './FormField'
+import Logo from './Logo'
 
 const authFormSchema = (type: FormType) => {
   return z.object({
@@ -127,11 +127,11 @@ const AuthForm = ({ type }: { type: FormType }) => {
     <div className="card-border lg:min-w-[566px]">
       <div className="card flex flex-col gap-6 px-10 py-14">
         <div className="flex flex-row justify-center gap-2">
-          <Image src="/logo.png" alt="logo" height={32} width={38} />
-          <h2 className="text-primary-100">Techviu</h2>
+          <Logo />
+          <h2 className="text-dark-100 dark:text-primary-100">Techviu</h2>
         </div>
 
-        <h3 className="text-center">Practice job interview with AI</h3>
+        <h3 className="text-center">Practice Tech Interviews with AI</h3>
 
         <Form {...form}>
           <form

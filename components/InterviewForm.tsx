@@ -92,7 +92,7 @@ const InterviewForm = () => {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="input w-full min-w-[144px] cursor-pointer">
+                    <SelectTrigger className="dark:!bg-dark-200 dark:placeholder:!text-light-100 !min-h-12 w-full min-w-[144px] cursor-pointer !rounded-full !bg-gray-100 !px-5 placeholder:!text-gray-400">
                       <SelectValue placeholder="Select your level" />
                     </SelectTrigger>
                   </FormControl>
@@ -117,7 +117,7 @@ const InterviewForm = () => {
                   <Input
                     placeholder="e.g., Frontend, Backend, UI/UX, DevOps"
                     {...field}
-                    className="input"
+                    className="dark:!bg-dark-200 dark:placeholder:!text-light-100 !min-h-12 !rounded-full !bg-gray-100 !px-5 placeholder:!text-gray-400"
                   />
                 </FormControl>
                 <FormMessage />
@@ -135,11 +135,14 @@ const InterviewForm = () => {
                   <Input
                     placeholder="e.g., React, Express.js, Django, Vue"
                     {...field}
-                    className="input"
+                    className="dark:!bg-dark-200 dark:placeholder:!text-light-100 !min-h-12 !rounded-full !bg-gray-100 !px-5 placeholder:!text-gray-400"
                   />
                 </FormControl>
                 <div className="flex gap-2">
-                  <Info size={14} className="text-light-100 mt-0.5" />
+                  <Info
+                    size={14}
+                    className="dark:text-light-100 text-dark-100 mt-0.5"
+                  />
                   <FormDescription className="description">
                     Enter multiple technologies, separated by commas (e.g.,
                     React, Express.js, Django, Vue)
@@ -161,7 +164,7 @@ const InterviewForm = () => {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="input w-full min-w-[144px] cursor-pointer">
+                    <SelectTrigger className="dark:!bg-dark-200 dark:placeholder:!text-light-100 !min-h-12 w-full min-w-[144px] cursor-pointer !rounded-full !bg-gray-100 !px-5 placeholder:!text-gray-400">
                       <SelectValue placeholder="Select the interview type" />
                     </SelectTrigger>
                   </FormControl>
@@ -187,7 +190,7 @@ const InterviewForm = () => {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="input w-full min-w-[144px] cursor-pointer">
+                    <SelectTrigger className="dark:!bg-dark-200 dark:placeholder:!text-light-100 !min-h-12 w-full min-w-[144px] cursor-pointer !rounded-full !bg-gray-100 !px-5 placeholder:!text-gray-400">
                       <SelectValue placeholder="Total interview questions" />
                     </SelectTrigger>
                   </FormControl>

@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import Link from 'next/link'
-import Image from 'next/image'
 import { redirect } from 'next/navigation'
+import { Calendar, Star } from 'lucide-react'
 
 import { getCurrentUser } from '@/lib/actions/auth.action'
 import {
@@ -36,18 +36,18 @@ const FeedbackPage = async ({ params }: RouteParams) => {
       <div className="flex flex-row sm:justify-center">
         <div className="flex flex-col gap-5 sm:flex-row">
           <div className="flex flex-row items-center gap-2">
-            <Image src="/star.svg" width={22} height={22} alt="star" />
+            <Star size={20} className="text-dark-100 dark:text-light-100" />
             <p>
               Overall Impression:{' '}
-              <span className="text-primary-200 font-bold">
+              <span className="dark:text-primary-200 text-dark-200 font-bold">
                 {feedback?.totalScore}
               </span>
               /100
             </p>
           </div>
 
-          <div className="flex flex-row gap-2">
-            <Image src="/calendar.svg" width={22} height={22} alt="calendar" />
+          <div className="flex flex-row items-center gap-2">
+            <Calendar size={20} className="text-dark-100 dark:text-light-100" />
             <p>
               {feedback?.createdAt
                 ? dayjs(feedback.createdAt).format('MMM D, YYYY h:mm A')
@@ -95,9 +95,7 @@ const FeedbackPage = async ({ params }: RouteParams) => {
       <div className="flex w-full gap-4 max-sm:flex-col max-sm:items-center md:grid md:grid-cols-2">
         <Button className="btn-secondary w-full flex-1">
           <Link href="/" className="flex w-full justify-center">
-            <p className="text-primary-200 text-center text-sm font-semibold">
-              Back to Home
-            </p>
+            <p className="text-center text-sm font-semibold">Back to Home</p>
           </Link>
         </Button>
 
