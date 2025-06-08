@@ -6,6 +6,7 @@ import { google } from '@ai-sdk/google'
 import { feedbackSchema } from '@/constants'
 import { getRandomInterviewCover } from '../utils'
 import { db } from '@/firebase/admin'
+import { FieldValue } from 'firebase-admin/firestore'
 
 export const getInterviewsByUserId = async (
   userId: string,
@@ -22,24 +23,26 @@ export const getInterviewsByUserId = async (
   })) as Interview[]
 }
 
-export const getLatestInterviews = async (
-  params: GetLatestInterviewsParams,
-): Promise<Interview[] | null> => {
-  const { userId, limit = 20 } = params
+// GET INTERVIEWS BY OTHER USERS
+//
+// export const getLatestInterviews = async (
+//   params: GetLatestInterviewsParams,
+// ): Promise<Interview[] | null> => {
+//   const { userId, limit = 20 } = params
 
-  const interviews = await db
-    .collection('interviews')
-    .orderBy('createdAt', 'desc')
-    .where('finalized', '==', true)
-    .where('userId', '!=', userId)
-    .limit(limit)
-    .get()
+//   const interviews = await db
+//     .collection('interviews')
+//     .orderBy('createdAt', 'desc')
+//     .where('finalized', '==', true)
+//     .where('userId', '!=', userId)
+//     .limit(limit)
+//     .get()
 
-  return interviews.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as Interview[]
-}
+//   return interviews.docs.map((doc) => ({
+//     id: doc.id,
+//     ...doc.data(),
+//   })) as Interview[]
+// }
 
 export const getInterviewById = async (
   id: string,
@@ -152,6 +155,7 @@ export const createFeedback = async (params: CreateFeedbackParams) => {
     }
 
     await feedbackRef.set(feedback)
+    await updateUserCreatedInterview(userId)
 
     return { success: true, feedbackId: feedbackRef.id }
   } catch (error) {
@@ -180,4 +184,24 @@ export const getFeedbackByInterviewId = async (
     id: feedbackDoc.id,
     ...feedbackDoc.data(),
   } as Feedback
+}
+
+export const updateUserCreatedInterview = async (userId: string) => {
+  try {
+    const userRef = db.collection('users').doc(userId)
+
+    await userRef.update({
+      createdInterview: FieldValue.increment(1),
+    })
+
+    return {
+      success: false,
+    }
+  } catch (error) {
+    console.error('Error updating user interview limit: ', error)
+
+    return {
+      success: false,
+    }
+  }
 }

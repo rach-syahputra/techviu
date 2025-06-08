@@ -22,6 +22,8 @@ const FeedbackPage = async ({ params }: RouteParams) => {
     userId: user?.id || '',
   })
 
+  const hasReachedInterviewSessionLimit = (user?.createdInterview || 0) >= 1
+
   return (
     <section className="section-feedback">
       <div className="flex flex-row justify-center">
@@ -90,8 +92,8 @@ const FeedbackPage = async ({ params }: RouteParams) => {
         </ul>
       </div>
 
-      <div className="buttons">
-        <Button className="btn-secondary flex-1">
+      <div className="flex w-full gap-4 max-sm:flex-col max-sm:items-center md:grid md:grid-cols-2">
+        <Button className="btn-secondary w-full flex-1">
           <Link href="/" className="flex w-full justify-center">
             <p className="text-primary-200 text-center text-sm font-semibold">
               Back to Home
@@ -99,16 +101,18 @@ const FeedbackPage = async ({ params }: RouteParams) => {
           </Link>
         </Button>
 
-        <Button className="btn-primary flex-1">
-          <Link
-            href={`/interview/${id}`}
-            className="flex w-full justify-center"
-          >
-            <p className="text-center text-sm font-semibold text-black">
-              Retake Interview
-            </p>
-          </Link>
-        </Button>
+        {!hasReachedInterviewSessionLimit && (
+          <Button className="btn-primary w-full flex-1">
+            <Link
+              href={`/interview/${id}`}
+              className="flex w-full justify-center"
+            >
+              <p className="text-center text-sm font-semibold text-black">
+                Retake Interview
+              </p>
+            </Link>
+          </Button>
+        )}
       </div>
     </section>
   )

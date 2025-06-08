@@ -36,6 +36,7 @@ interface User {
   name: string
   email: string
   id: string
+  createdInterview: number
 }
 
 interface InterviewCardProps {
@@ -45,6 +46,7 @@ interface InterviewCardProps {
   type: string
   techstack: string[]
   createdAt?: string
+  hasReachedInterviewSessionLimit: boolean
 }
 
 interface AgentProps {

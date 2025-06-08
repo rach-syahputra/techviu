@@ -1,29 +1,62 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import dayjs from 'dayjs'
+import { toast } from 'sonner'
 
 import { getFeedbackByInterviewId } from '@/lib/actions/interview.action'
 import { Button } from './ui/button'
 import DisplayTechIcons from './DisplayTechIcons'
+import InterviewCardSkeleton from './InterviewCardSkeleton'
 
-const InterviewCard = async ({
+const InterviewCard = ({
   id,
   userId,
   role,
   type,
   techstack,
   createdAt,
+  hasReachedInterviewSessionLimit,
 }: InterviewCardProps) => {
-  const feedback =
-    userId && id
-      ? await getFeedbackByInterviewId({ interviewId: id, userId })
-      : null
-  const normalizedType = /mix/gi.test(type) ? 'Mixed' : type
-  const formattedDate = dayjs(
-    feedback?.createdAt || createdAt || Date.now(),
-  ).format('MMM D, YYYY')
+  const router = useRouter()
 
-  return (
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [feedback, setFeedback] = useState<Feedback | null>(null)
+  const [date, setDate] = useState<string>('')
+
+  const normalizedType = /mix/gi.test(type) ? 'Mixed' : type
+
+  const getFeedback = async () => {
+    setFeedback(
+      userId && id
+        ? await getFeedbackByInterviewId({ interviewId: id, userId })
+        : null,
+    )
+    setDate(
+      dayjs(feedback?.createdAt || createdAt || Date.now()).format(
+        'MMM D, YYYY',
+      ),
+    )
+    setIsLoading(false)
+  }
+
+  const handleInterviewClick = () => {
+    if (!feedback && hasReachedInterviewSessionLimit) {
+      toast.error(
+        'You have reached interview session limit. Please create a new account.',
+      )
+    } else {
+      router.push(feedback ? `/interview/${id}/feedback` : `/interview/${id}`)
+    }
+  }
+
+  useEffect(() => {
+    getFeedback()
+  }, [])
+
+  return !isLoading ? (
     <div className="card-border min-h-96 w-[360px] max-sm:w-full">
       <div className="card-interview">
         <div>
@@ -50,7 +83,7 @@ const InterviewCard = async ({
                 height={22}
               />
 
-              <p>{formattedDate}</p>
+              <p>{date}</p>
             </div>
 
             <div className="flex flex-row items-center gap-2">
@@ -68,16 +101,14 @@ const InterviewCard = async ({
         <div className="flex flex-row justify-between">
           <DisplayTechIcons techStack={techstack} />
 
-          <Button asChild className="btn-primary">
-            <Link
-              href={feedback ? `/interview/${id}/feedback` : `/interview/${id}`}
-            >
-              {feedback ? 'View Feedback' : 'View Interview'}
-            </Link>
+          <Button onClick={handleInterviewClick} className="btn-primary">
+            {feedback ? 'View Feedback' : 'Start Interview'}
           </Button>
         </div>
       </div>
     </div>
+  ) : (
+    <InterviewCardSkeleton />
   )
 }
 
