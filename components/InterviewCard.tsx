@@ -32,11 +32,11 @@ const InterviewCard = async ({
           </div>
 
           <Image
-            src="/logo.svg"
+            src="/logo.png"
             alt="cover image"
             width={90}
-            height={90}
-            className="object-fit size-[90px]"
+            height={86}
+            className="aspect-auto w-[90px]"
           />
 
           <h3 className="mt-5 capitalize">{role} Interview</h3>
