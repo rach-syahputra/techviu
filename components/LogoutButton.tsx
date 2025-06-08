@@ -1,12 +1,9 @@
-'use client'
-
-import { auth } from '@/firebase/client'
+import { signOut } from '@/lib/actions/auth.action'
 import { Button } from './ui/button'
-import { signOut } from 'firebase/auth'
 
 const LogoutButton = () => {
   return (
-    <Button onClick={() => signOut(auth)} className="btn">
+    <Button onClick={signOut} className="btn">
       Logout
     </Button>
   )
