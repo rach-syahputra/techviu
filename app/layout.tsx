@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Mona_Sans } from 'next/font/google'
 import { Toaster } from 'sonner'
 import './globals.css'
+
+import { CLIENT_BASE_URL } from '@/constants'
 import { ThemeProvider } from '@/components/ThemeProvider'
 
 const monaSans = Mona_Sans({
@@ -13,6 +15,24 @@ export const metadata: Metadata = {
   title: 'Techviu',
   description:
     'AI-powered platform to practice and perfect your mock interviews.',
+  openGraph: {
+    title: 'Techviu',
+    description:
+      'AI-powered platform to practice and perfect your mock interviews.',
+
+    type: 'website',
+    siteName: 'AI-Powered Interview',
+    images: [
+      {
+        url: '/open-graph.png',
+        secureUrl: '/open-graph.png',
+        width: 1200,
+        height: 630,
+        alt: 'AI-Powered Interview',
+      },
+    ],
+  },
+  metadataBase: new URL(CLIENT_BASE_URL),
 }
 
 export default function RootLayout({

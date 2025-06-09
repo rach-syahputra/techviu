@@ -1,6 +1,8 @@
 import z from 'zod'
 import { CreateAssistantDTO } from '@vapi-ai/web/dist/api'
 
+export const CLIENT_BASE_URL = 'https://techviu.vercel.app'
+
 export const mappings = {
   'react.js': 'react',
   reactjs: 'react',

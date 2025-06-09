@@ -1,14 +1,40 @@
-import dayjs from 'dayjs'
+import { Metadata } from 'next'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
+import dayjs from 'dayjs'
 import { Calendar, Star } from 'lucide-react'
 
+import { CLIENT_BASE_URL } from '@/constants'
 import { getCurrentUser } from '@/lib/actions/auth.action'
 import {
   getFeedbackByInterviewId,
   getInterviewById,
 } from '@/lib/actions/interview.action'
 import { Button } from '@/components/ui/button'
+
+export const metadata: Metadata = {
+  title: 'Feedback',
+  description:
+    'AI-powered platform to practice and perfect your mock interviews.',
+  openGraph: {
+    title: 'Feedback',
+    description:
+      'AI-powered platform to practice and perfect your mock interviews.',
+
+    type: 'website',
+    siteName: 'AI-Powered Interview',
+    images: [
+      {
+        url: '/open-graph.png',
+        secureUrl: '/open-graph.png',
+        width: 1200,
+        height: 630,
+        alt: 'AI-Powered Interview',
+      },
+    ],
+  },
+  metadataBase: new URL(CLIENT_BASE_URL),
+}
 
 const FeedbackPage = async ({ params }: RouteParams) => {
   const { id } = await params
