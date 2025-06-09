@@ -65,7 +65,6 @@ const InterviewSessionPage = async ({ params }: RouteParams) => {
         userName={user?.name || ''}
         userId={user?.id}
         interviewId={id}
-        type="interview"
         questions={interview.questions}
       />
     </>

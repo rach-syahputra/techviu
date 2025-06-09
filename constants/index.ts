@@ -416,8 +416,9 @@ export const interviewer: CreateAssistantDTO = {
     smartEndpointingPlan: {
       provider: 'livekit',
     },
+    waitSeconds: 2,
   },
-  silenceTimeoutSeconds: 5,
+  silenceTimeoutSeconds: 6,
   model: {
     provider: 'openai',
     model: 'gpt-4',
@@ -451,7 +452,9 @@ Thank the candidate for their time.
 Inform them that the company will reach out soon with feedback.
 End the conversation on a polite and positive note.
 
-
+- Don’t respond immediately after the candidate stops talking.
+- Wait 5 seconds or more to confirm they really finished.
+- Cancel waiting if they start talking again
 - Be sure to be professional and polite.
 - Keep all your responses short and simple. Use official language, but be kind and welcoming.
 - This is a voice conversation, so keep your responses short, like in a real conversation. Don't ramble for too long.`,
