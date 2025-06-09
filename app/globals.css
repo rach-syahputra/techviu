@@ -178,7 +178,7 @@
     @apply !bg-primary-200 !text-dark-100 hover:!bg-primary-200/80 min-h-10 w-fit cursor-pointer !rounded-full px-5 !font-bold;
   }
   .btn-secondary {
-    @apply dark:!bg-dark-200 !text-dark-200 dark:!text-primary-200 dark:hover:!bg-dark-200/80 !bg-light-400 hover:!bg-light-400/80 min-h-10 w-fit cursor-pointer !rounded-full px-5 !font-bold;
+    @apply dark:!bg-dark-200 !text-dark-100 dark:!text-primary-200 dark:hover:!bg-dark-200/80 !bg-light-100 hover:!bg-light-100/80 min-h-10 w-fit cursor-pointer !rounded-full px-5 !font-bold;
   }
 
   .btn-upload {

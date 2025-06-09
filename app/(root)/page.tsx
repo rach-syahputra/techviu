@@ -25,7 +25,8 @@ const HomePage = async () => {
             </p>
 
             <CTA
-              hasReachedInterviewSessionLimit={
+              isAuthenticated={!!user}
+              hasReachedInterviewGenerationLimit={
                 (user?.createdInterview || 0) >= 1
               }
             />
@@ -51,7 +52,7 @@ const HomePage = async () => {
                 key={interview.id}
                 {...interview}
                 hasReachedInterviewSessionLimit={
-                  (user?.createdInterview || 0) >= 1
+                  (user?.takenInterview || 0) >= 2
                 }
               />
             ))

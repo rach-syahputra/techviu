@@ -37,6 +37,13 @@ interface User {
   email: string
   id: string
   createdInterview: number
+  takenInterview: number
+}
+
+interface UpdateUserParams {
+  userId: string
+  incrementCreatedInterview?: number
+  incrementTakenInterview?: number
 }
 
 interface InterviewCardProps {

@@ -61,6 +61,13 @@ const InterviewForm = () => {
   const onSubmit = async (values: z.infer<typeof interviewFormSchema>) => {
     const user = await getCurrentUser()
 
+    if ((user?.createdInterview || 0) >= 1) {
+      toast.error(
+        'You have reached interview generation limit. Please create a new account.',
+      )
+      return router.push('/')
+    }
+
     const response = await createInterview({
       userId: user?.id as string,
       level: values.level,

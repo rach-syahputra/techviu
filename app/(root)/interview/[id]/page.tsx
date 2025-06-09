@@ -11,7 +11,7 @@ const InterviewSessionPage = async ({ params }: RouteParams) => {
 
   const interview = await getInterviewById(id)
 
-  if (!interview) redirect('/')
+  if (!interview || (user?.takenInterview || 0) >= 2) redirect('/')
 
   return (
     <>

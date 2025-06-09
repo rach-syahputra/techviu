@@ -181,7 +181,11 @@ const Agent = ({
 
       <div className="flex w-full justify-center">
         {callStatus !== 'ACTIVE' ? (
-          <button onClick={handleCall} className="btn-call relative">
+          <button
+            onClick={handleCall}
+            disabled={!isCallInactiveOrFinished}
+            className="btn-call relative"
+          >
             <span
               className={cn('absolute animate-ping rounded-full opacity-75', {
                 hidden: callStatus !== 'CONNECTING',

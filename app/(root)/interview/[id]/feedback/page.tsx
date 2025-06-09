@@ -22,7 +22,7 @@ const FeedbackPage = async ({ params }: RouteParams) => {
     userId: user?.id || '',
   })
 
-  const hasReachedInterviewSessionLimit = (user?.createdInterview || 0) >= 1
+  const hasReachedInterviewSessionLimit = (user?.takenInterview || 0) >= 2
 
   return (
     <section className="section-feedback">

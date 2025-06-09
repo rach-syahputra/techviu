@@ -6,14 +6,20 @@ import { toast } from 'sonner'
 import { Button } from './ui/button'
 
 interface CTAProps {
-  hasReachedInterviewSessionLimit: boolean
+  isAuthenticated: boolean
+  hasReachedInterviewGenerationLimit: boolean
 }
 
-const CTA = ({ hasReachedInterviewSessionLimit }: CTAProps) => {
+const CTA = ({
+  isAuthenticated,
+  hasReachedInterviewGenerationLimit,
+}: CTAProps) => {
   const router = useRouter()
 
   const handleCTAClick = () => {
-    if (hasReachedInterviewSessionLimit) {
+    if (!isAuthenticated) {
+      router.push('/sign-in')
+    } else if (hasReachedInterviewGenerationLimit) {
       toast.error(
         'You have reached interview session limit. Please create a new account.',
       )

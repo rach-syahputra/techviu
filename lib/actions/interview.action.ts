@@ -4,7 +4,6 @@ import { generateObject, generateText } from 'ai'
 import { google } from '@ai-sdk/google'
 
 import { feedbackSchema } from '@/constants'
-import { getRandomInterviewCover } from '../utils'
 import { db } from '@/firebase/admin'
 import { FieldValue } from 'firebase-admin/firestore'
 
@@ -81,11 +80,14 @@ export const createInterview = async (params: InterviewFormProps) => {
       questions: JSON.parse(questions),
       userId,
       finalized: true,
-      coverImage: getRandomInterviewCover(),
       createdAt: new Date().toISOString(),
     }
 
     await db.collection('interviews').add(interview)
+    await updateUser({
+      userId,
+      incrementCreatedInterview: 1,
+    })
 
     return { success: true }
   } catch (error) {
@@ -155,7 +157,10 @@ export const createFeedback = async (params: CreateFeedbackParams) => {
     }
 
     await feedbackRef.set(feedback)
-    await updateUserCreatedInterview(userId)
+    await updateUser({
+      userId,
+      incrementTakenInterview: 1,
+    })
 
     return { success: true, feedbackId: feedbackRef.id }
   } catch (error) {
@@ -186,13 +191,22 @@ export const getFeedbackByInterviewId = async (
   } as Feedback
 }
 
-export const updateUserCreatedInterview = async (userId: string) => {
+export const updateUser = async ({
+  userId,
+  incrementCreatedInterview,
+  incrementTakenInterview,
+}: UpdateUserParams) => {
   try {
     const userRef = db.collection('users').doc(userId)
 
-    await userRef.update({
-      createdInterview: FieldValue.increment(1),
-    })
+    const updates: Record<string, any> = {}
+
+    if (incrementCreatedInterview)
+      updates.createdInterview = FieldValue.increment(incrementCreatedInterview)
+    if (incrementTakenInterview)
+      updates.takenInterview = FieldValue.increment(incrementTakenInterview)
+
+    await userRef.update(updates)
 
     return {
       success: false,
