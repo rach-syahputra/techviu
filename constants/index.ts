@@ -396,6 +396,8 @@ export const interviewer: CreateAssistantDTO = {
   name: 'Interviewer',
   firstMessage:
     "Hello! Thank you for taking the time to speak with me today. I'm excited to learn more about you and your experience.",
+  endCallMessage:
+    'Thank you for your time, we will reach out soon. Have a great day!',
   transcriber: {
     provider: 'deepgram',
     model: 'nova-2',
@@ -410,6 +412,12 @@ export const interviewer: CreateAssistantDTO = {
     style: 0.5,
     useSpeakerBoost: true,
   },
+  startSpeakingPlan: {
+    smartEndpointingPlan: {
+      provider: 'livekit',
+    },
+  },
+  silenceTimeoutSeconds: 5,
   model: {
     provider: 'openai',
     model: 'gpt-4',
@@ -422,11 +430,11 @@ Interview Guidelines:
 Follow the structured question flow:
 {{questions}}
 
-Engage naturally & react appropriately:
+Engage naturally & react appropriately.
 Listen actively to responses and acknowledge them before moving forward.
 Ask brief follow-up questions if a response is vague or requires more detail.
 Keep the conversation flowing smoothly while maintaining control.
-Be professional, yet warm and welcoming:
+Be professional, yet warm and welcoming. Do not interrupt the candidate. Allow them to fully finish speaking, even if there are short pauses up to 5 seconds. Only respond once it's clear they have completed their answer.
 
 Use official yet friendly language.
 Keep responses concise and to the point (like in a real voice interview).
@@ -435,6 +443,8 @@ Answer the candidate’s questions professionally:
 
 If asked about the role, company, or expectations, provide a clear and relevant answer.
 If unsure, redirect the candidate to HR for more details.
+Only evaluate a feedback category if there is sufficient verbal input from the candidate related to that category.
+Do not assign mid or high scores by default if the candidate ends the call early or skips most questions.
 
 Conclude the interview properly:
 Thank the candidate for their time.

@@ -61,7 +61,6 @@ interface AgentProps {
   userId?: string
   interviewId?: string
   feedbackId?: string
-  type: 'generate' | 'interview'
   questions?: string[]
 }
 

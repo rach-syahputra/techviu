@@ -4,6 +4,7 @@ import { generateObject, generateText } from 'ai'
 import { google } from '@ai-sdk/google'
 
 import { feedbackSchema } from '@/constants'
+import { fixMarkdownJSON } from '../utils'
 import { db } from '@/firebase/admin'
 import { FieldValue } from 'firebase-admin/firestore'
 
@@ -55,29 +56,45 @@ export const createInterview = async (params: InterviewFormProps) => {
   const { type, role, level, techstack, amount, userId } = params
 
   try {
-    const { text: questions } = await generateText({
+    const { text } = await generateText({
       model: google('gemini-2.0-flash-001'),
-      prompt: `Prepare questions for a job interview.
-        The job role is ${role}.
-        The job experience level is ${level}.
-        The tech stack used in the job is: ${techstack}.
-        The focus between behavioural and technical questions should lean towards: ${type}.
-        The amount of questions required is: ${amount}.
-        Please return only the questions, without any additional text.
-        The questions are going to be read by a voice assistant so do not use "/" or "*" or any other special characters which might break the voice assistant.
-        Return the questions formatted like this:
-        ["Question 1", "Question 2", "Question 3"]
-        
-        Thank you! <3
-    `,
+      prompt: `Generate a list of unique and versatile job interview questions for a voice-based mock interview.
+
+Input:
+- Role: ${role}
+- Experience Level: ${level}
+- Tech Stack: ${techstack}
+- Question Focus: ${type} (behavioral, technical, or both)
+- Number of Questions: ${amount}
+
+Requirements:
+- All questions must be answerable verbally — no written code, no whiteboarding.
+- Focus on reasoning, explanation, practical judgment, and real-world scenarios.
+- Make each question sound natural for a spoken interview.
+- Avoid templates or repetitions across multiple runs — introduce randomness and variation.
+- Do not include any formatting like bullet points, numbering, or markdown.
+- Do **not** include special characters like / or * that might break a voice assistant.
+
+Output:
+- Output must be a **raw JSON array of strings**.
+- Do not include any extra text or explanation outside the JSON array.
+- Return the result as a plain JSON array of strings, like this:
+  ["Question 1", "Question 2", "Question 3"]
+- Do **not** include any explanation, introduction, or text outside the array.
+`,
     })
+
+    console.log('questions: ', text)
+
+    const rawJson = fixMarkdownJSON(text)
+    const questions = JSON.parse(rawJson)
 
     const interview = {
       role,
       type,
       level,
       techstack,
-      questions: JSON.parse(questions),
+      questions,
       userId,
       finalized: true,
       createdAt: new Date().toISOString(),
@@ -132,6 +149,15 @@ export const createFeedback = async (params: CreateFeedbackParams) => {
         - **Problem-Solving**: Ability to analyze problems and propose solutions.
         - **Cultural & Role Fit**: Alignment with company values and job role.
         - **Confidence & Clarity**: Confidence in responses, engagement, and clarity.
+
+        Scoring rules:
+        - Give 0 if the candidate gave **no answer**.
+        - Give <30 if the answer was vague, incorrect, or unclear.
+        - Only give scores >70 if the answer was structured, clear, and showed understanding.
+        - Do **not** invent positive traits unless explicitly present in the transcript.
+        - If a score is low due to missing data, explain that it was due to insufficient input.
+
+        Be honest, strict, and never assume. Focus only on what the candidate actually said.
         `,
       system:
         'You are a professional interviewer analyzing a mock interview. Your task is to evaluate the candidate based on structured categories',

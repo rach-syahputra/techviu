@@ -24,13 +24,7 @@ interface SavedMessage {
   content: string
 }
 
-const Agent = ({
-  userName,
-  userId,
-  type,
-  questions,
-  interviewId,
-}: AgentProps) => {
+const Agent = ({ userName, userId, questions, interviewId }: AgentProps) => {
   const router = useRouter()
 
   const [isSpeaking, setIsSpeaking] = useState(false)
@@ -41,27 +35,18 @@ const Agent = ({
   const handleCall = async () => {
     setCallStatus(CallStatus.CONNECTING)
 
-    if (type === 'generate') {
-      vapi.start(
-        undefined,
-        undefined,
-        undefined,
-        process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID,
-      )
-    } else {
-      let formattedQuestions = ''
-      if (questions) {
-        formattedQuestions = questions
-          .map((question) => `- ${question}`)
-          .join('\n')
-      }
-
-      await vapi.start(interviewer, {
-        variableValues: {
-          questions: formattedQuestions,
-        },
-      })
+    let formattedQuestions = ''
+    if (questions) {
+      formattedQuestions = questions
+        .map((question) => `- ${question}`)
+        .join('\n')
     }
+
+    await vapi.start(interviewer, {
+      variableValues: {
+        questions: formattedQuestions,
+      },
+    })
   }
 
   const handleDisconnect = async () => {
@@ -97,6 +82,16 @@ const Agent = ({
         const newMessage = { role: message.role, content: message.transcript }
 
         setMessages((prev) => [...prev, newMessage])
+
+        // If assistant says interview is over, hang up automatically
+        if (
+          message.role === 'assistant' &&
+          message.transcript.toLowerCase().includes('have a great day')
+        ) {
+          setTimeout(() => {
+            vapi.stop()
+          }, 1200)
+        }
       }
     }
 
@@ -124,13 +119,9 @@ const Agent = ({
 
   useEffect(() => {
     if (callStatus === CallStatus.FINISHED) {
-      if (type === 'generate') {
-        router.push('/')
-      } else {
-        handleGenerateFeedback(messages)
-      }
+      handleGenerateFeedback(messages)
     }
-  }, [messages, callStatus, type, userId])
+  }, [messages, callStatus, userId])
 
   const lastMessage = messages[messages.length - 1]?.content
   const isCallInactiveOrFinished =

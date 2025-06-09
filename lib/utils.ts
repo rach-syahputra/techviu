@@ -42,6 +42,18 @@ export const getTechLogos = async (techArray: string[]) => {
   return results
 }
 
+export const fixMarkdownJSON = (input: string) => {
+  const lines = input.trim().split('\n')
+
+  if (lines[0].startsWith('```') && lines[lines.length - 1].startsWith('```')) {
+    const jsonLines = lines.slice(1, -1)
+
+    return jsonLines.join('\n')
+  }
+
+  return input
+}
+
 export const getRandomInterviewCover = () => {
   const randomIndex = Math.floor(Math.random() * interviewCovers.length)
   return `/covers${interviewCovers[randomIndex]}`

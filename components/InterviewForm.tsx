@@ -37,7 +37,7 @@ const interviewFormSchema = z.object({
   type: z.enum(['technical', 'behavioral', 'mixed'], {
     message: 'Type must be one of: technical, behavioral, or mixed.',
   }),
-  amount: z.enum(['1', '2', '3', '4', '5'], {
+  amount: z.enum(['1', '2', '3'], {
     message: 'Amount must be between 1 and 5',
   }),
 })
@@ -202,7 +202,7 @@ const InterviewForm = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {Array.from({ length: 5 }).map((_, index) => (
+                    {Array.from({ length: 3 }).map((_, index) => (
                       <SelectItem key={index} value={(index + 1).toString()}>
                         {index + 1}
                       </SelectItem>
