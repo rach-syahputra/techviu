@@ -1,13 +1,12 @@
 import type { Metadata } from 'next'
-import { Mona_Sans } from 'next/font/google'
+import { Plus_Jakarta_Sans } from 'next/font/google'
 import { Toaster } from 'sonner'
 import './globals.css'
 
 import { CLIENT_BASE_URL } from '@/constants'
-import { ThemeProvider } from '@/components/ThemeProvider'
 
-const monaSans = Mona_Sans({
-  variable: '--font-mona-sans',
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: '--font-plus-jakarta-sans',
   subsets: ['latin'],
 })
 
@@ -42,16 +41,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
-      <body className={`${monaSans.variable} ${monaSans.variable} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          disableTransitionOnChange
-        >
-          {children}
+      <body
+        className={`${plusJakartaSans.variable} ${plusJakartaSans.variable} font-plus-jakarta-sans antialiased`}
+      >
+        {children}
 
-          <Toaster />
-        </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   )

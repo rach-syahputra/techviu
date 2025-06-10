@@ -99,7 +99,7 @@ const InterviewForm = () => {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="dark:!bg-dark-200 dark:placeholder:!text-light-100 !min-h-12 w-full min-w-[144px] cursor-pointer !rounded-full !bg-gray-100 !px-5 placeholder:!text-gray-400">
+                    <SelectTrigger className="input cursor-pointer">
                       <SelectValue placeholder="Select your level" />
                     </SelectTrigger>
                   </FormControl>
@@ -124,7 +124,7 @@ const InterviewForm = () => {
                   <Input
                     placeholder="e.g., Frontend, Backend, UI/UX, DevOps"
                     {...field}
-                    className="dark:!bg-dark-200 dark:placeholder:!text-light-100 !min-h-12 !rounded-full !bg-gray-100 !px-5 placeholder:!text-gray-400"
+                    className="input"
                   />
                 </FormControl>
                 <FormMessage />
@@ -142,7 +142,7 @@ const InterviewForm = () => {
                   <Input
                     placeholder="e.g., React, Express.js, Django, Vue"
                     {...field}
-                    className="dark:!bg-dark-200 dark:placeholder:!text-light-100 !min-h-12 !rounded-full !bg-gray-100 !px-5 placeholder:!text-gray-400"
+                    className="input"
                   />
                 </FormControl>
                 <div className="flex gap-2">
@@ -171,7 +171,7 @@ const InterviewForm = () => {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="dark:!bg-dark-200 dark:placeholder:!text-light-100 !min-h-12 w-full min-w-[144px] cursor-pointer !rounded-full !bg-gray-100 !px-5 placeholder:!text-gray-400">
+                    <SelectTrigger className="input cursor-pointer">
                       <SelectValue placeholder="Select the interview type" />
                     </SelectTrigger>
                   </FormControl>
@@ -197,7 +197,7 @@ const InterviewForm = () => {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="dark:!bg-dark-200 dark:placeholder:!text-light-100 !min-h-12 w-full min-w-[144px] cursor-pointer !rounded-full !bg-gray-100 !px-5 placeholder:!text-gray-400">
+                    <SelectTrigger className="input cursor-pointer">
                       <SelectValue placeholder="Total interview questions" />
                     </SelectTrigger>
                   </FormControl>

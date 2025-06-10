@@ -5,6 +5,17 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+  --color-p-100: #2ef2ff;
+  --color-p-200: #3c52d9;
+  --color-p-300: #c8ea80;
+  --color-p-400: #eaedff;
+  --color-p-500: #c4cbf5;
+  --color-s-100: #080d27;
+  --color-s-200: #0c1838;
+  --color-s-300: #334679;
+  --color-s-400: #1959ad;
+  --color-s-500: #263466;
+
   --color-success-100: #49de50;
   --color-success-200: #42c748;
   --color-destructive-100: #f75353;
@@ -23,8 +34,12 @@
   --color-dark-300: #242633;
 
   --font-mona-sans: 'Mona Sans', sans-serif;
+  --font-plus-jakarta-sans: 'Plus Jakarta Sans', sans-serif;
 
   --bg-pattern: url('/pattern.png');
+
+  --shadow-500:
+    0px 16px 24px rgba(0, 0, 0, 0.25), 0px -14px 48px rgba(40, 51, 111, 0.7);
 }
 
 :root {
@@ -138,17 +153,20 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html body[data-scroll-locked] {
+    @apply !mr-0 !overflow-visible;
+  }
   body {
-    @apply text-foreground;
+    @apply text-foreground dark:bg-s-100 pattern;
   }
   p {
-    @apply dark:text-light-100 text-shadow-dark-200;
+    @apply text-shadow-dark-200 dark:text-p-400;
   }
   h2 {
-    @apply text-3xl font-semibold;
+    @apply dark:text-light-100 text-dark-100 text-3xl font-bold;
   }
   h3 {
-    @apply text-2xl font-semibold;
+    @apply dark:text-light-100 text-dark-100 text-2xl font-bold;
   }
   ul {
     @apply list-inside list-disc;
@@ -178,7 +196,7 @@
     @apply !bg-primary-200 !text-dark-100 hover:!bg-primary-200/80 min-h-10 w-fit cursor-pointer !rounded-full px-5 !font-bold;
   }
   .btn-secondary {
-    @apply dark:!bg-dark-200 !text-dark-100 dark:!text-primary-200 dark:hover:!bg-dark-200/80 !bg-light-100 hover:!bg-light-100/80 min-h-10 w-fit cursor-pointer !rounded-full px-5 !font-bold;
+    @apply !bg-s-500 !text-primary-200 hover:!bg-s-500/80 min-h-10 w-fit cursor-pointer !rounded-full px-5 !font-bold;
   }
 
   .btn-upload {
@@ -186,11 +204,11 @@
   }
 
   .card-border {
-    @apply gray-gradient dark:border-gradient w-fit rounded-2xl p-0.5;
+    @apply dark:border-gradient w-fit rounded-2xl p-0.5;
   }
 
   .card {
-    @apply dark:dark-gradient gray-gradient min-h-full rounded-2xl;
+    @apply dark:dark-gradient min-h-full rounded-2xl;
   }
 
   .form {
@@ -205,11 +223,7 @@
     }
 
     .input {
-      @apply dark:!bg-dark-200 dark:placeholder:!text-light-100 !min-h-12 !rounded-full !bg-gray-200 !px-5 placeholder:!text-gray-500;
-    }
-
-    .interview-input {
-      @apply dark:!bg-dark-200 dark:placeholder:!text-light-100 !min-h-12 !rounded-full !bg-red-100 !px-5 placeholder:!text-gray-400;
+      @apply dark:!bg-s-200/80 !min-h-12 !w-full !rounded-full !px-5 dark:placeholder:!text-gray-400/80;
     }
 
     .btn {
@@ -304,14 +318,70 @@
   .user-image {
     @apply dark:border-light-100 border-dark-200 flex size-[120px] items-center justify-center rounded-full border;
   }
+
+  .inner-before {
+    @apply before:g7 before:absolute before:inset-0 before:opacity-0 before:transition-opacity before:duration-500 before:content-[''];
+  }
+
+  .glow-before {
+    @apply before:g8 before:absolute before:top-0 before:left-2/5 before:z-4 before:h-0.5 before:w-3/5 before:opacity-0 before:transition-all before:duration-500 before:content-[''] group-hover:before:left-4 group-hover:before:opacity-40;
+  }
+
+  .glow-after {
+    @apply after:g8 after:absolute after:bottom-0 after:left-4 after:z-4 after:h-0.5 after:w-7/20 after:opacity-0 after:transition-all after:duration-500 after:content-[''] group-hover:after:left-3/5 group-hover:after:opacity-40;
+  }
+}
+
+@utility g1 {
+  background: linear-gradient(rgba(196, 203, 245, 0.5), transparent);
+}
+
+@utility g2 {
+  @apply bg-linear-to-b from-[#3062a3] to-[#19549f];
+}
+
+@utility g3 {
+  @apply bg-linear-to-b from-[#3c52d9] to-[#0c1838];
+}
+
+@utility g4 {
+  @apply bg-linear-to-b from-[#253575] to-[#162561];
+}
+
+@utility g5 {
+  @apply bg-linear-to-b from-[#334679] to-[#162561];
+}
+
+@utility g6 {
+  @apply bg-linear-to-b from-[#334679] to-[#0c1838];
+}
+
+@utility g7 {
+  @apply bg-linear-to-b from-[#1b275a] to-[#0e1434];
+}
+
+@utility g8 {
+  background: linear-gradient(to right, transparent, #2ef2ff, transparent);
+}
+
+@utility g9 {
+  background: linear-gradient(#080d27, transparent);
+}
+
+@utility word-spacing-md {
+  word-spacing: 0.25rem;
 }
 
 @utility dark-gradient {
-  @apply bg-gradient-to-b from-[#1A1C20] to-[#08090D];
+  @apply from-s-200 to-s-100 bg-gradient-to-b;
 }
 
 @utility border-gradient {
-  @apply bg-gradient-to-b from-[#4B4D4F] to-[#4B4D4F33];
+  @apply from-s-300 to-s-200 bg-gradient-to-b;
+}
+
+@utility bg-skeleton {
+  @apply from-s-300/40 to-s-300/20 bg-gradient-to-b;
 }
 
 @utility pattern {
@@ -319,7 +389,7 @@
 }
 
 @utility blue-gradient-dark {
-  @apply bg-gradient-to-b from-[#171532] to-[#08090D];
+  @apply from-s-200 to-s-100 bg-gradient-to-b;
 }
 
 @utility blue-gradient {
@@ -327,11 +397,11 @@
 }
 
 @utility gray-gradient {
-  @apply bg-gradient-to-r from-gray-50 to-gray-100;
+  @apply bg-gradient-to-b from-gray-100 to-gray-50;
 }
 
 @utility gray-gradient-dark {
-  @apply bg-gradient-to-r from-gray-100 to-gray-200;
+  @apply bg-gradient-to-b from-gray-200 to-gray-100;
 }
 
 @utility flex-center {

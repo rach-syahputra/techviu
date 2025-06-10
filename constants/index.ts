@@ -418,7 +418,7 @@ export const interviewer: CreateAssistantDTO = {
     },
     waitSeconds: 2,
   },
-  silenceTimeoutSeconds: 6,
+  silenceTimeoutSeconds: 12,
   model: {
     provider: 'openai',
     model: 'gpt-4',

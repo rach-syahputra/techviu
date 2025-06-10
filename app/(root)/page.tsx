@@ -15,9 +15,9 @@ const HomePage = async () => {
   return (
     <>
       <section className="card-cta">
-        <div className="flex w-full flex-col justify-between gap-8 max-lg:items-center lg:flex-row lg:gap-6">
-          <div className="flex max-w-lg flex-col gap-6">
-            <h2>Smarter Tech Interviews with AI</h2>
+        <div className="flex w-full flex-col justify-between gap-8 max-lg:items-center md:grid md:grid-cols-5 lg:gap-6">
+          <div className="flex flex-col gap-6 md:col-span-3">
+            <h2 className="text-4xl font-bold">AI-Powered Tech Interview</h2>
             <p className="text-lg">
               Practice real interview questions tailored to your role,
               experience level, and tech stack. Get immediate, AI-powered
@@ -33,11 +33,11 @@ const HomePage = async () => {
           </div>
 
           <Image
-            src="/hero.png"
-            alt="tech-interview"
+            src="/robot-2.png"
+            alt="robot"
             width={600}
             height={620.45}
-            className="aspect-auto w-[300px] object-cover"
+            className="aspect-auto w-[280px] place-self-center object-cover pt-4 md:col-span-2 lg:place-self-end"
           />
         </div>
       </section>

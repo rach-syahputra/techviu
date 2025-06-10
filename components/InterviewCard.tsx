@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useTheme } from 'next-themes'
 import dayjs from 'dayjs'
 import { toast } from 'sonner'
 import { Calendar, Star } from 'lucide-react'
@@ -23,7 +22,6 @@ const InterviewCard = ({
   hasReachedInterviewSessionLimit,
 }: InterviewCardProps) => {
   const router = useRouter()
-  const { theme } = useTheme()
 
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [feedback, setFeedback] = useState<Feedback | null>(null)
@@ -63,16 +61,16 @@ const InterviewCard = ({
     <div className="card-border min-h-96 w-[360px] max-sm:w-full">
       <div className="card-interview">
         <div>
-          <div className="bg-light-100 absolute top-0 right-0 w-fit rounded-bl-lg px-4 py-2">
+          <div className="dark:bg-s-500 absolute top-0 right-0 w-fit rounded-bl-lg px-4 py-2">
             <p className="badge-text">{normalizedType}</p>
           </div>
 
           <Image
-            src={theme === 'light' ? '/logo-light.png' : '/logo.png'}
+            src="/logo.png"
             alt="cover image"
-            width={90}
-            height={86}
-            className="aspect-auto w-[90px]"
+            width={64}
+            height={55.92}
+            className="aspect-auto w-[64px]"
           />
 
           <h3 className="mt-5 capitalize">{role} Interview</h3>

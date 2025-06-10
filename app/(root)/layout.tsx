@@ -4,7 +4,6 @@ import Link from 'next/link'
 
 import { getCurrentUser, isAuthenticated } from '@/lib/actions/auth.action'
 import LogoutButton from '@/components/LogoutButton'
-import { ThemeToggle } from '@/components/ThemeToggle'
 import Logo from '@/components/Logo'
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
@@ -22,8 +21,8 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
         </Link>
 
         <div className="flex items-center gap-4">
-          <p>{user?.email}</p>
-          <ThemeToggle />
+          <p className="max-md:hidden">{user?.email}</p>
+
           <LogoutButton />
         </div>
       </nav>

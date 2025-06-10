@@ -56,7 +56,7 @@ const InterviewSessionPage = async ({ params }: RouteParams) => {
           <DisplayTechIcons techStack={interview.techstack} />
         </div>
 
-        <p className="dark:bg-dark-200 bg-light-100 h-fit rounded-lg px-4 py-2 capitalize">
+        <p className="text-p-300 h-fit rounded-lg px-4 py-2 font-semibold uppercase">
           {interview.type}
         </p>
       </div>

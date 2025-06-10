@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
-import { Button } from './ui/button'
+import Button from './Button'
 
 interface CTAProps {
   isAuthenticated: boolean
@@ -27,11 +27,7 @@ const CTA = ({
       router.push('/interview')
     }
   }
-  return (
-    <Button onClick={handleCTAClick} className="btn-primary max-sm:w-full">
-      Start an Interview
-    </Button>
-  )
+  return <Button onClick={handleCTAClick}>Start an Interview</Button>
 }
 
 export default CTA

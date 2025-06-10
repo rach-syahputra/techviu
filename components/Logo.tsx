@@ -5,25 +5,15 @@ interface LogoProps {
   height?: number
 }
 
-const Logo = ({ width = 38, height = 32 }: LogoProps) => {
+const Logo = ({ width = 48, height = 42 }: LogoProps) => {
   return (
-    <>
-      <Image
-        src="/logo-light.png"
-        alt="Logo"
-        width={width}
-        height={height}
-        className="dark:hidden"
-      />
-
-      <Image
-        src="/logo.png"
-        alt="Logo"
-        width={width}
-        height={height}
-        className="hidden dark:block"
-      />
-    </>
+    <Image
+      src="/logo.png"
+      alt="Logo"
+      width={width}
+      height={height}
+      className="aspect-auto h-[33,20px] w-[38px]"
+    />
   )
 }
 

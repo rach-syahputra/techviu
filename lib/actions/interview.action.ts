@@ -84,8 +84,6 @@ Output:
 `,
     })
 
-    console.log('questions: ', text)
-
     const rawJson = fixMarkdownJSON(text)
     const questions = JSON.parse(rawJson)
 

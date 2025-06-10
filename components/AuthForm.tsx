@@ -124,14 +124,17 @@ const AuthForm = ({ type }: { type: FormType }) => {
   }, [])
 
   return (
-    <div className="card-border lg:min-w-[566px]">
+    <div className="card-border w-full max-w-[500px]">
       <div className="card flex flex-col gap-6 px-10 py-14">
-        <div className="flex flex-row justify-center gap-2">
+        <div className="flex flex-row justify-center gap-3">
           <Logo />
           <h2 className="text-dark-100 dark:text-primary-100">Techviu</h2>
         </div>
 
-        <h3 className="text-center">Practice Tech Interviews with AI</h3>
+        <h3 className="word-spacing-md flex flex-col gap-2 text-center text-xl">
+          <span>Practice Tech Interview</span>
+          <span> with AI</span>
+        </h3>
 
         <Form {...form}>
           <form
