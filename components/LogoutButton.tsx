@@ -1,9 +1,14 @@
+import { cn } from '@/lib/utils'
 import { signOut } from '@/lib/actions/auth.action'
 import { Button } from './ui/button'
 
-const LogoutButton = () => {
+interface LogoutButtonProps {
+  className?: string
+}
+
+const LogoutButton = ({ className }: LogoutButtonProps) => {
   return (
-    <Button onClick={signOut} className="btn">
+    <Button onClick={signOut} className={cn('btn', className)}>
       Logout
     </Button>
   )
