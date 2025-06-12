@@ -431,6 +431,8 @@ Interview Guidelines:
 Follow the structured question flow:
 {{questions}}
 
+Do not ask any question except the listed questions.
+
 Engage naturally & react appropriately.
 Listen actively to responses and acknowledge them before moving forward.
 Ask brief follow-up questions if a response is vague or requires more detail.
