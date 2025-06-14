@@ -98,15 +98,16 @@ Output:
       createdAt: new Date().toISOString(),
     }
 
-    await db.collection('interviews').add(interview)
+    const interviewRef = await db.collection('interviews').add(interview)
+
     await updateUser({
       userId,
       incrementCreatedInterview: 1,
     })
 
-    return { success: true }
+    return { success: true, interviewId: interviewRef.id }
   } catch (error) {
-    console.error(error)
+    console.error('Creating interview error: ', error)
 
     return { success: false }
   }

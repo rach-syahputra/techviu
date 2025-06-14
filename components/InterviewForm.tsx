@@ -77,8 +77,8 @@ const InterviewForm = () => {
       amount: Number(values.amount),
     })
 
-    if (response.success) {
-      router.push('/')
+    if (response.success && response.interviewId) {
+      router.push(`/interview/${response.interviewId}`)
     } else {
       toast.error('Failed creating interview')
     }
