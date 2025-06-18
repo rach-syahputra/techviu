@@ -46,7 +46,7 @@ const InterviewCard = ({
   const handleInterviewClick = () => {
     if (!feedback && hasReachedInterviewSessionLimit) {
       toast.error(
-        'You have reached interview session limit. Please create a new account.',
+        'Interview session limit reached. Please create a new account.',
       )
     } else {
       router.push(feedback ? `/interview/${id}/feedback` : `/interview/${id}`)

@@ -23,6 +23,7 @@ interface Interview {
   userId: string
   type: string
   finalized: boolean
+  takenCount: number
 }
 
 interface CreateFeedbackParams {
@@ -44,6 +45,11 @@ interface UpdateUserParams {
   userId: string
   incrementCreatedInterview?: number
   incrementTakenInterview?: number
+}
+
+interface UpdateInterviewParams {
+  interviewId: string
+  incrementTakenCount: number
 }
 
 interface InterviewCardProps {

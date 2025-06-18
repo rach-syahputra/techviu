@@ -95,6 +95,7 @@ Output:
       questions,
       userId,
       finalized: true,
+      takenCount: 0,
       createdAt: new Date().toISOString(),
     }
 
@@ -114,7 +115,7 @@ Output:
 }
 
 export const createFeedback = async (params: CreateFeedbackParams) => {
-  const { interviewId, userId, transcript, feedbackId } = params
+  const { interviewId, userId, transcript } = params
 
   try {
     const formattedTranscript = transcript
@@ -137,32 +138,47 @@ export const createFeedback = async (params: CreateFeedbackParams) => {
         structuredOutputs: false,
       }),
       schema: feedbackSchema,
-      prompt: `
-        You are an AI interviewer analyzing a mock interview. Your task is to evaluate the candidate based on structured categories. Be thorough and detailed in your analysis. Don't be lenient with the candidate. If there are mistakes or areas for improvement, point them out.
-        Transcript:
-        ${formattedTranscript}
+      prompt: `You are an AI interviewer analyzing a mock interview. Your task is to evaluate the candidate based on structured categories. Be thorough and detailed in your analysis. Don't be lenient with the candidate. If there are mistakes or areas for improvement, point them out.
+Transcript:
+${formattedTranscript}
 
-        Please score the candidate from 0 to 100 in the following areas. Do not add categories other than the ones provided:
-        - **Communication Skills**: Clarity, articulation, structured responses.
-        - **Technical Knowledge**: Understanding of key concepts for the role.
-        - **Problem-Solving**: Ability to analyze problems and propose solutions.
-        - **Cultural & Role Fit**: Alignment with company values and job role.
-        - **Confidence & Clarity**: Confidence in responses, engagement, and clarity.
+Instructions:
+1. Return **only** the following 5 evaluation categories in your final JSON:
+   - Communication Skills
+   - Technical Knowledge
+   - Problem Solving
+   - Cultural Fit
+   - Confidence and Clarity
+2. Each category must have:
+   - name (string)
+   - score (number between 0 and 100)
+   - comment (string explanation, minimum 1 sentence)
+3. You must also return:
+   - totalScore (number, average of all category scores)
+   - strengths (array of strings, based only on positive observations from the transcript)
+   - areasForImprovement (array of strings, based only on issues actually mentioned)
+   - finalAssessment (string, short summary of performance and fit)
 
-        Scoring rules:
-        - Give 0 if the candidate gave **no answer**.
-        - Give <30 if the answer was vague, incorrect, or unclear.
-        - Only give scores >70 if the answer was structured, clear, and showed understanding.
-        - Do **not** invent positive traits unless explicitly present in the transcript.
-        - If a score is low due to missing data, explain that it was due to insufficient input.
+Please score the candidate from 0 to 100 in the following areas. Do not add categories other than the ones provided:
+- **Communication Skills**: Clarity, articulation, structured responses.
+- **Technical Knowledge**: Understanding of key concepts for the role.
+- **Problem-Solving**: Ability to analyze problems and propose solutions.
+- **Cultural & Role Fit**: Alignment with company values and job role.
+- **Confidence & Clarity**: Confidence in responses, engagement, and clarity.
 
-        Be honest, strict, and never assume. Focus only on what the candidate actually said.
-        `,
+Scoring rules:
+- Give 0 if the candidate gave **no answer**.
+- Give <30 if the answer was vague, incorrect, or unclear.
+- Only give scores >70 if the answer was structured, clear, and showed understanding.
+- Do **not** invent positive traits unless explicitly present in the transcript.
+- If a score is low due to missing data, explain that it was due to insufficient input.
+
+Be honest, strict, and never assume. Focus only on what the candidate actually said.`,
       system:
         'You are a professional interviewer analyzing a mock interview. Your task is to evaluate the candidate based on structured categories',
     })
 
-    const feedback = {
+    const newFeedback = {
       interviewId: interviewId,
       userId: userId,
       totalScore,
@@ -173,18 +189,21 @@ export const createFeedback = async (params: CreateFeedbackParams) => {
       createdAt: new Date().toISOString(),
     }
 
-    let feedbackRef
+    const feedback = await db
+      .collection('feedback')
+      .where('interviewId', '==', interviewId)
+      .get()
+    console.log('feedback: ', feedback.docs)
+    const feedbackId = feedback.docs[0]?.id
 
-    if (feedbackId) {
-      feedbackRef = db.collection('feedback').doc(feedbackId)
-    } else {
-      feedbackRef = db.collection('feedback').doc()
-    }
+    const feedbackRef = feedbackId
+      ? db.collection('feedback').doc(feedbackId)
+      : db.collection('feedback').doc()
 
-    await feedbackRef.set(feedback)
-    await updateUser({
-      userId,
-      incrementTakenInterview: 1,
+    await feedbackRef.set(newFeedback)
+    await updateInterview({
+      interviewId,
+      incrementTakenCount: 1,
     })
 
     return { success: true, feedbackId: feedbackRef.id }
@@ -234,10 +253,33 @@ export const updateUser = async ({
     await userRef.update(updates)
 
     return {
-      success: false,
+      success: true,
     }
   } catch (error) {
     console.error('Error updating user interview limit: ', error)
+
+    return {
+      success: false,
+    }
+  }
+}
+
+export const updateInterview = async ({
+  interviewId,
+  incrementTakenCount,
+}: UpdateInterviewParams) => {
+  try {
+    const interviewRef = db.collection('interviews').doc(interviewId)
+
+    await interviewRef.update({
+      takenCount: FieldValue.increment(incrementTakenCount),
+    })
+
+    return {
+      success: true,
+    }
+  } catch (error) {
+    console.error('Error updating interview: ', error)
 
     return {
       success: false,

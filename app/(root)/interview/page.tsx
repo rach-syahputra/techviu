@@ -1,12 +1,13 @@
 import { redirect } from 'next/navigation'
 
+import { INTERVIEW_GENERATION_LIMIT } from '@/constants'
 import { getCurrentUser } from '@/lib/actions/auth.action'
 import InterviewForm from '@/components/InterviewForm'
 
 const InterviewPage = async () => {
   const user = await getCurrentUser()
 
-  if ((user?.createdInterview || 0) >= 1) {
+  if ((user?.createdInterview || 0) >= INTERVIEW_GENERATION_LIMIT) {
     redirect('/')
   }
 

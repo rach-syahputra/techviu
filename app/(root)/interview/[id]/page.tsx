@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 
-import { CLIENT_BASE_URL } from '@/constants'
+import { CLIENT_BASE_URL, INTERVIEW_SESSION_LIMIT } from '@/constants'
 import { getInterviewById } from '@/lib/actions/interview.action'
 import { getCurrentUser } from '@/lib/actions/auth.action'
 import DisplayTechIcons from '@/components/DisplayTechIcons'
@@ -45,7 +45,8 @@ const InterviewSessionPage = async ({ params }: RouteParams) => {
 
   const interview = await getInterviewById(id)
 
-  if (!interview || (user?.takenInterview || 0) >= 2) redirect('/')
+  if (!interview || (interview?.takenCount || 0) >= INTERVIEW_SESSION_LIMIT)
+    redirect('/')
 
   return (
     <>

@@ -1,5 +1,9 @@
 import Image from 'next/image'
 
+import {
+  INTERVIEW_GENERATION_LIMIT,
+  INTERVIEW_SESSION_LIMIT,
+} from '@/constants'
 import { getCurrentUser } from '@/lib/actions/auth.action'
 import { getInterviewsByUserId } from '@/lib/actions/interview.action'
 import InterviewCard from '@/components/InterviewCard'
@@ -27,7 +31,7 @@ const HomePage = async () => {
             <CTA
               isAuthenticated={!!user}
               hasReachedInterviewGenerationLimit={
-                (user?.createdInterview || 0) >= 1
+                (user?.createdInterview || 0) >= INTERVIEW_GENERATION_LIMIT
               }
             />
           </div>
@@ -52,7 +56,7 @@ const HomePage = async () => {
                 key={interview.id}
                 {...interview}
                 hasReachedInterviewSessionLimit={
-                  (user?.takenInterview || 0) >= 2
+                  (interview.takenCount || 0) >= INTERVIEW_SESSION_LIMIT
                 }
               />
             ))

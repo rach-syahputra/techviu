@@ -22,7 +22,7 @@ const CTA = ({
       router.push('/sign-in')
     } else if (hasReachedInterviewGenerationLimit) {
       toast.error(
-        'You have reached interview session limit. Please create a new account.',
+        'Interview generation limit reached. Please create a new account.',
       )
     } else {
       router.push('/interview')

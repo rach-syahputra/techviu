@@ -19,9 +19,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
           <h2 className="dark:text-primary-100">Techviu</h2>
         </Link>
 
-        <SignInButton />
-
-        {isUserAuthenticated && (
+        {isUserAuthenticated ? (
           <>
             <div className="flex items-center gap-4 max-md:hidden">
               <p className="max-md:hidden">{user?.email}</p>
@@ -31,6 +29,8 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
 
             <Hamburger email={user?.email || ''} />
           </>
+        ) : (
+          <SignInButton />
         )}
       </nav>
 

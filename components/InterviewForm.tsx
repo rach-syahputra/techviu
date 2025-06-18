@@ -7,6 +7,7 @@ import { z } from 'zod'
 import { Info } from 'lucide-react'
 import { toast } from 'sonner'
 
+import { INTERVIEW_GENERATION_LIMIT } from '@/constants'
 import { getCurrentUser } from '@/lib/actions/auth.action'
 import { createInterview } from '@/lib/actions/interview.action'
 import { Button } from '@/components/ui/button'
@@ -61,9 +62,9 @@ const InterviewForm = () => {
   const onSubmit = async (values: z.infer<typeof interviewFormSchema>) => {
     const user = await getCurrentUser()
 
-    if ((user?.createdInterview || 0) >= 1) {
+    if ((user?.createdInterview || 0) >= INTERVIEW_GENERATION_LIMIT) {
       toast.error(
-        'You have reached interview generation limit. Please create a new account.',
+        'Interview generation limit reached. Please create a new account.',
       )
       return router.push('/')
     }

@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation'
 import dayjs from 'dayjs'
 import { Calendar, Star } from 'lucide-react'
 
-import { CLIENT_BASE_URL } from '@/constants'
+import { CLIENT_BASE_URL, INTERVIEW_SESSION_LIMIT } from '@/constants'
 import { getCurrentUser } from '@/lib/actions/auth.action'
 import {
   getFeedbackByInterviewId,
@@ -48,7 +48,8 @@ const FeedbackPage = async ({ params }: RouteParams) => {
     userId: user?.id || '',
   })
 
-  const hasReachedInterviewSessionLimit = (user?.takenInterview || 0) >= 2
+  const hasReachedInterviewSessionLimit =
+    (interview?.takenCount || 0) >= INTERVIEW_SESSION_LIMIT
 
   return (
     <section className="section-feedback">
