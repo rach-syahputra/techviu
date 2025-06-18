@@ -1,8 +1,8 @@
 import { ReactNode } from 'react'
-import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
 import { getCurrentUser, isAuthenticated } from '@/lib/actions/auth.action'
+import SignInButton from '@/components/SignInButton'
 import LogoutButton from '@/components/LogoutButton'
 import Logo from '@/components/Logo'
 import Hamburger from '@/components/Hamburger'
@@ -10,8 +10,6 @@ import Hamburger from '@/components/Hamburger'
 const RootLayout = async ({ children }: { children: ReactNode }) => {
   const user = await getCurrentUser()
   const isUserAuthenticated = await isAuthenticated()
-
-  if (!isUserAuthenticated) redirect('/sign-in')
 
   return (
     <div className="root-layout">
@@ -21,13 +19,19 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
           <h2 className="dark:text-primary-100">Techviu</h2>
         </Link>
 
-        <div className="flex items-center gap-4 max-md:hidden">
-          <p className="max-md:hidden">{user?.email}</p>
+        <SignInButton />
 
-          <LogoutButton />
-        </div>
+        {isUserAuthenticated && (
+          <>
+            <div className="flex items-center gap-4 max-md:hidden">
+              <p className="max-md:hidden">{user?.email}</p>
 
-        <Hamburger email={user?.email || ''} />
+              <LogoutButton />
+            </div>
+
+            <Hamburger email={user?.email || ''} />
+          </>
+        )}
       </nav>
 
       {children}

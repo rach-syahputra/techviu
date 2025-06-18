@@ -18,6 +18,7 @@ const CTA = ({
 
   const handleCTAClick = () => {
     if (!isAuthenticated) {
+      toast('Sign in to start an interview')
       router.push('/sign-in')
     } else if (hasReachedInterviewGenerationLimit) {
       toast.error(
